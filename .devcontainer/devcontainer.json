@@ -1,0 +1,6 @@
+{
+  "name": "Default Codespace + MongoDB",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "codespace",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+}
