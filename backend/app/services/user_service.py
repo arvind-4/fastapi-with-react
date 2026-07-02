@@ -1,15 +1,8 @@
 """User service module."""
 
-from datetime import (
-    UTC,
-    datetime,
-    timedelta,
-)
+from datetime import UTC, datetime, timedelta
 
-from jose import (
-    JWTError,
-    jwt,
-)
+from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from backend.app.config import get_settings
@@ -19,10 +12,6 @@ from backend.app.repositories.user_repository import UserRepository
 from di import register
 
 settings = get_settings()
-
-SECRET_KEY = settings.secret_key
-ALGORITHM = settings.jwt_algorithm
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.session_duration
 
 
 @register(dependencies=[UserRepository, CustomMongoClient])
@@ -56,14 +45,18 @@ class UserService:
     def create_access_token(self, data: dict) -> str:
         """Create a JWT access token."""
         to_encode = data.copy()
-        expire = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(UTC) + timedelta(minutes=settings.session_duration)
         to_encode.update({"exp": expire})
-        return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        return jwt.encode(
+            to_encode, settings.secret_key, algorithm=settings.jwt_algorithm
+        )
 
     def verify_token(self, token: str) -> dict | None:
         """Verify a JWT token and return its payload."""
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            payload = jwt.decode(
+                token, settings.secret_key, algorithms=[settings.jwt_algorithm]
+            )
         except JWTError:
             return None
         username: str | None = payload.get("username")

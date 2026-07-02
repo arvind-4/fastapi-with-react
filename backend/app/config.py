@@ -1,38 +1,31 @@
 """Application configuration."""
 
 from functools import lru_cache
+from typing import TypedDict, Unpack
 
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class _SettingsKwargs(TypedDict, total=False):
+    secret_key: str
+    jwt_algorithm: str
+    session_duration: int
+    mongo_uri: str
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
-    model_config = SettingsConfigDict(
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
+    model_config = SettingsConfigDict(extra="ignore")
 
-    secret_key: str = Field(
-        default_factory=str,
-        validation_alias="SECRET_KEY",
-    )
+    secret_key: str
+    jwt_algorithm: str = "HS256"
+    session_duration: int = 86400
+    mongo_uri: str
 
-    jwt_algorithm: str = Field(
-        default="HS256",
-        validation_alias="JWT_ALGORITHM",
-    )
-
-    session_duration: int = Field(
-        default=86400,
-        validation_alias="SESSION_DURATION",
-    )
-
-    mongo_uri: str = Field(
-        default_factory=str,
-        validation_alias="MONGO_URI",
-    )
+    def __init__(self, **kwargs: Unpack[_SettingsKwargs]) -> None:
+        """Values are loaded from environment variables by BaseSettings."""
+        super().__init__(**kwargs)
 
 
 @lru_cache
