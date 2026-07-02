@@ -1,24 +1,19 @@
-[tool.poetry]
-name = "backend"
+[project]
+name = "fastapi-with-react"
 version = "0.1.0"
-description = ""
-authors = ["Arvind-4 <lordarvindthegamer@gmail.com>"]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.125.0",
+  "gunicorn==26.0.0",
+  "passlib==1.7.4",
+  "pydantic-settings>=2.14.2",
+  "pydantic[email]==2.13",
+  "pymongo==4.17.0",
+  "python-jose==3.3.0",
+  "uvicorn==0.49.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-fastapi = "^0.79.0"
-uvicorn = "^0.18.2"
-passlib = "^1.7.4"
-cryptography = "^37.0.4"
-openpyxl = "^3.0.10"
-python-jose = "^3.3.0"
-pymongo = {extras = ["srv"], version = "^4.2.0"}
-python-multipart = "^0.0.5"
-python-dotenv = "^0.20.0"
-pydantic = {extras = ["email"], version = "^1.9.1"}
-
-[tool.poetry.dev-dependencies]
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = ["pyright>=1.1.411", "ruff>=0.15.20", "ty>=0.0.55"]
