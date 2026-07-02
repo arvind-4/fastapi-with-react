@@ -5,10 +5,8 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react({
-    jsxRuntime: 'classic' // Add this line
-  }), viteTsconfigPaths(), svgrPlugin()],
+  plugins: [react(), viteTsconfigPaths(), svgrPlugin()],
   build: {
-    outDir: "build"
-  }
+    outDir: 'build',
+  },
 });

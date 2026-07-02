@@ -1,30 +1,28 @@
-import React from 'react';
 import './app.scss';
 import { Content, Theme } from '@carbon/react';
-import TutorialHeader from './components/TutorialHeader';
+import TutorialHeader from './components/TutorialHeader/TutorialHeader';
 import { Route, Switch } from 'react-router-dom';
-import LandingPage from './content/LandingPage';
-import RepoPage from './content/RepoPage';
+import LandingPage from './content/LandingPage/LandingPage';
+import RepoPage from './content/RepoPage/RepoPage';
 
-import LoginPage from './content/LoginPage';
-import RegisterPage from './content/RegisterPage';
+import LoginPage from './content/LoginPage/LoginPage';
+import RegisterPage from './content/RegisterPage/RegisterPage';
+import React from 'react';
 
-function App() {
+export default function App() {
   return (
-    <>
-      <Theme theme="g100">
+    <React.Fragment>
+      <Theme theme='g100'>
         <TutorialHeader />
       </Theme>
       <Content>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/register" component={RegisterPage} />
-          <Route exact path="/repo" component={RepoPage} />
+          <Route exact path='/' component={LandingPage} />
+          <Route exact path='/login' component={LoginPage} />
+          <Route exact path='/register' component={RegisterPage} />
+          <Route exact path='/repo' component={RepoPage} />
         </Switch>
       </Content>
-    </>
+    </React.Fragment>
   );
 }
-
-export default App;
