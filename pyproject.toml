@@ -1,7 +1,7 @@
 [project]
 name = "fastapi-with-react"
 version = "0.1.0"
-description = "Add your description here"
+description = "A FastAPI project with React js frontend"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
@@ -16,4 +16,15 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pyright>=1.1.411", "ruff>=0.15.20", "ty>=0.0.55"]
+dev = ["pyright>=1.1.411", "pytest>=9.1.1", "ruff>=0.15.20", "ty>=0.0.55", "uv-script>=0.1.0"]
+
+[tool.uvs.scripts]
+dev = "uv run --env-file=.env.local uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload"
+check = [
+  "uv run ruff format .",
+  "uv run ruff check . --fix",
+  "uv run ruff check .",
+  "uv run ty check .",
+  "uv run pyright .",
+]
+generate-key = "uv run python -c \"import secrets; print(secrets.token_urlsafe(32))\""
