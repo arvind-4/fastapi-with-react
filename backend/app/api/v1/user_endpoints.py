@@ -1,12 +1,8 @@
 """User API endpoints for v1."""
 
-from fastapi import (
-    APIRouter,
-)
+from fastapi import APIRouter
 
-from backend.app.domain.user import (
-    UserRegister,
-)
+from backend.app.domain.user import UserRegister
 from backend.app.services.user_service import UserService
 from di import inject
 
