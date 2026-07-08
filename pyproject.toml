@@ -1,24 +1,30 @@
-[tool.poetry]
-name = "backend"
+[project]
+name = "fastapi-with-react"
 version = "0.1.0"
-description = ""
-authors = ["Arvind-4 <lordarvindthegamer@gmail.com>"]
+description = "A FastAPI project with React js frontend"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.125.0",
+  "gunicorn==26.0.0",
+  "passlib==1.7.4",
+  "pydantic-settings>=2.14.2",
+  "pydantic[email]==2.13",
+  "pymongo==4.17.0",
+  "python-jose==3.3.0",
+  "uvicorn==0.49.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-fastapi = "^0.79.0"
-uvicorn = "^0.18.2"
-passlib = "^1.7.4"
-cryptography = "^37.0.4"
-openpyxl = "^3.0.10"
-python-jose = "^3.3.0"
-pymongo = {extras = ["srv"], version = "^4.2.0"}
-python-multipart = "^0.0.5"
-python-dotenv = "^0.20.0"
-pydantic = {extras = ["email"], version = "^1.9.1"}
+[dependency-groups]
+dev = ["pyright>=1.1.411", "pytest>=9.1.1", "ruff>=0.15.20", "ty>=0.0.55", "uv-script>=0.1.0"]
 
-[tool.poetry.dev-dependencies]
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.uvs.scripts]
+dev = "uv run --env-file=.env.local uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload"
+check = [
+  "uv run ruff format .",
+  "uv run ruff check . --fix",
+  "uv run ruff check .",
+  "uv run ty check .",
+  "uv run pyright .",
+]
+generate-key = "uv run python -c \"import secrets; print(secrets.token_urlsafe(32))\""

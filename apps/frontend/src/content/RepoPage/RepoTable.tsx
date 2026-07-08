@@ -31,17 +31,13 @@ const RepoTable = ({ rows, headers }: { rows: any; headers: any }) => {
         getRowProps: any;
         getTableProps: any;
       }) => (
-        <TableContainer
-          title="Carbon Repositories"
-          description="A collection of public Carbon repositories.">
+        <TableContainer title='Carbon Repositories' description='A collection of public Carbon repositories.'>
           <Table {...getTableProps()}>
             <TableHead>
               <TableRow>
                 <TableExpandHeader />
                 {headers.map((header: any) => (
-                  <TableHeader {...getHeaderProps({ header })}>
-                    {header.header}
-                  </TableHeader>
+                  <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                 ))}
               </TableRow>
             </TableHead>

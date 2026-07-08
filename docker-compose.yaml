@@ -1,7 +1,6 @@
 version: '3.8'
 
-services: 
-
+services:
   db:
     container_name: mongodb-fastapi
     image: mongo:latest
@@ -17,24 +16,24 @@ services:
 
   backend:
     container_name: backend
-    build: 
+    build:
       context: .
       dockerfile: ./apps/docker/backend/Dockerfile
     restart: always
     env_file:
       - ./.env
     ports:
-      - "8000:8000"
+      - '8000:8000'
 
   nginx:
-    depends_on: 
-    - backend
+    depends_on:
+      - backend
     container_name: ngnix
-    build: 
+    build:
       context: .
       dockerfile: ./apps/docker/nginx/Dockerfile
-    ports: 
-      - "80:80"
+    ports:
+      - '80:80'
     restart: always
 
   frontend:
