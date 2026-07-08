@@ -34,6 +34,7 @@ class UserRegister(BaseModel):
     is_super_user: bool = False
     is_active: bool = True
     created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
 
 
 class UserLogin(BaseModel):
@@ -41,3 +42,19 @@ class UserLogin(BaseModel):
 
     username: str
     password: str
+
+
+class UserResponse(BaseModel):
+    """User response schema."""
+
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+    )
+    user_id: PyObjectId | None = None
+    email: EmailStr
+    avatar: str | None = None
+    is_super_user: bool = False
+    is_active: bool = True
+    updated_at: datetime | None = None
+    created_at: datetime | None = None
