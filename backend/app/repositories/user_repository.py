@@ -22,13 +22,13 @@ class UserRepository(BaseRepository):
         """Create a new user in the database."""
         user_dict = user.model_dump()
         user_id = self.session.insert_one(user_dict).inserted_id
-        created_user = self.session.find_one({"_id": user_id})
-        if created_user is None:
+        if user_id is None:
             msg = "Failed to retrieve created user"
             raise RuntimeError(msg)
-        return self.to_domain(created_user)
+        return self.to_domain({**user_dict, "user_id": user_id})
 
     def find(self, include_id: bool | None = None) -> list[UserEntity]:
         """Find all users, optionally including the _id field."""
         projection = {} if include_id else {"_id": 0}
-        return [UserEntity(**user) for user in self.session.find({}, projection)]
+        users = self.session.find({}, projection)
+        return [UserEntity(**user) for user in users]

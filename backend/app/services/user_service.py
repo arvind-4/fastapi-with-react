@@ -6,24 +6,20 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from backend.app.config import get_settings
-from backend.app.domain.user import UserEntity, UserRegister
-from backend.app.infrastructure.mongo_db.mongo_client import CustomMongoClient
+from backend.app.domain.user import UserEntity, UserRegister, UserResponse
 from backend.app.repositories.user_repository import UserRepository
 from di import register
 
 settings = get_settings()
 
 
-@register(dependencies=[UserRepository, CustomMongoClient])
+@register(dependencies=[UserRepository])
 class UserService:
     """Service layer for user operations."""
 
-    def __init__(
-        self, user_repository: UserRepository, mongo_client: "CustomMongoClient"
-    ) -> None:
+    def __init__(self, user_repository: UserRepository) -> None:
         """Initialize the user service."""
         self.user_repository = user_repository
-        self.mongo_client = mongo_client
         self.pwd_cxt = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     def bcrypt(self, password: str) -> str:
@@ -64,6 +60,7 @@ class UserService:
             return None
         return payload
 
-    def get_users(self) -> list[UserEntity]:
+    def get_users(self) -> list[UserResponse]:
         """Get all users."""
-        return self.user_repository.find(include_id=True)
+        users = self.user_repository.find(include_id=True)
+        return [UserResponse(**user.model_dump()) for user in users]
